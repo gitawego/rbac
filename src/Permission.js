@@ -1,6 +1,6 @@
 import Base from './Base';
 
-export const DELIMITER = '_';
+export let DELIMITER = '_';
 
 export default class Permission extends Base {
   /**
@@ -18,13 +18,15 @@ export default class Permission extends Base {
       cb = add;
       add = true;
     }
-
+    if (rbac._options.delimiter) {
+      DELIMITER = rbac._options.delimiter;
+    }
     if (!action || !resource) {
       return cb(new Error('One of parameters is undefined'));
     }
 
     if (!Permission.isValidName(action) || !Permission.isValidName(resource)) {
-      return cb(new Error('Action or resource has no valid name'));
+      return cb(new Error('Action or resource must not contain delimiter'));
     }
 
     super(rbac, Permission.createName(action, resource), add, cb);
@@ -109,10 +111,6 @@ export default class Permission extends Base {
    * @static
    */
   static isValidName(name) {
-    if (/^[a-zA-Z0-9]+$/.test(name)) {
-      return true;
-    }
-
-    return false;
+    return !(new RegExp(DELIMITER, 'g')).test(name);
   }
 }

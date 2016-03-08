@@ -13,6 +13,7 @@ export default class RBAC {
    * @param  {Array}    [options.roles]            List of role names (String)
    * @param  {Object}   [options.permissions]      List of permissions
    * @param  {Object}   [options.grants]           List of grants
+   * @param  {String}   [options.delimiter]        delimiter
    * @param  {Function} [callback]         Callback function
    */
   constructor(options = {}, callback = () => {}) {
